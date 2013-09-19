@@ -3,7 +3,11 @@ SafeSwap::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'pages#index'
+  
+  post 'login' => 'pages#login'
+  get 'oauth_authorized' => 'pages#oauth_authorized'
+  get  'home' => 'pages#home'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
