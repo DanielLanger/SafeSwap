@@ -4,6 +4,9 @@
 		<title> Welcome to SafeSwap </title>
 	</head>
 	<body>
-		<%= button_to "Login", action: "login" %>
+    Welcome to SafeSwap
+    Please Log In or Register <br />
+		<%= button_to 'Sign in', new_user_session_path, :method => :post %>
+    <%= button_to 'Sign up', new_user_registration_path, :method => :get %>
 	</body>
 </html>

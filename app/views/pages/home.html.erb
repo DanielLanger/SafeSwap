@@ -1,1 +1,5 @@
-<%= session[:venmo_token] %>
+<%= session[:token] %>
+
+<%= button_to "Integrate Venmo", :controller => :venmo, :action => :login %>
+
+<%= link_to 'Logout', destroy_user_session_path,  method: :delete %>           

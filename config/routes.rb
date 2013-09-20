@@ -1,12 +1,13 @@
 SafeSwap::Application.routes.draw do
+  devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
   root 'pages#index'
   
-  post 'login' => 'pages#login'
-  get 'oauth_authorized' => 'pages#oauth_authorized'
+  post 'venmo_login' => 'venmo#login'
+  get 'oauth_authorized' => 'venmo#oauth_authorized'
   get  'home' => 'pages#home'
 
   # Example of regular route:
