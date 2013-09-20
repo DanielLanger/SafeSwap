@@ -22,25 +22,23 @@ def login
     require 'json'
     code = params[:code]
     url = "https://api.venmo.com/oauth/access_token"
-=begin
-    access_token_exchange_url = "#{VENMO_BASE_URL}oauth/access_token"
-    uri = URI.parse(access_token_exchange_url)
-    response = Net::HTTP.post_form(uri, { "code" => code, "client_id" => "#{VENMO_CLIENT_ID}", "client_secret" => "#{VENMO_CLIENT_SECRET}"})
-    
-    body = response.body
-
-    puts "res"
-    puts JSON.load body
-=end
-  uri = URI.parse(url)
-  http = Net::HTTP.new(uri.host, uri.port)
-  http.use_ssl = true
-  data = "code=#{code}&client_id=#{VENMO_CLIENT_ID}&client_secret=#{VENMO_CLIENT_SECRET}"
-  puts data
-  resp = http.post(uri.path, data)
-  jsonData = JSON.parse(resp.body)
-  session[:token] = jsonData["access_token"]
-  redirect_to :controller => "pages", :action => "home"
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    data = "code=#{code}&client_id=#{VENMO_CLIENT_ID}&client_secret=#{VENMO_CLIENT_SECRET}"
+    resp = http.post(uri.path, data)
+    jsonData = JSON.parse(resp.body)
+    puts jsonData
+    session[:token] = jsonData["access_token"]
+    if current_user.venmo_id == nil
+      current_user.venmo_id = jsonData["user"]["id"]
+      current_user.username = jsonData["user"]["user-name"]
+      current_user.phone = jsonData["user"]["phone"]
+      current_user.picture = jsonData["user"]["picture"]
+      current_user.balance = jsonData["user"]["balance"]
+      current_user.save
+    end
+    redirect_to :controller => "pages", :action => "home"
 
   end
 end
